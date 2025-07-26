@@ -1,0 +1,31 @@
+# Dockerfile.jenkins: Jenkins 서버 컨테이너 이미지를 위한 Dockerfile
+
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Docker CLI 설치를 위한 사전 요구 사항 및 sudo 설치
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    sudo \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release && \
+    mkdir -m 0755 -p /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+      $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    apt-get update && \
+    apt-get install -y docker-ce-cli && \
+    rm -rf /var/lib/apt/lists/*
+
+# jenkins 사용자를 호스트 Docker 그룹의 GID(1001)에 추가
+# 그리고 jenkins 사용자를 sudo 그룹에 추가하여 sudo 명령어 사용 권한 부여
+RUN groupadd -r docker -g 1001 || true && \
+    usermod -aG docker jenkins && \
+    usermod -aG sudo jenkins
+
+# 다시 jenkins 사용자로 전환
+USER jenkins
