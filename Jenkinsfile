@@ -1,5 +1,5 @@
 pipeline {
-    agent {
+    agent any {
         docker {
             image 'docker:25.0.3-cli' // 도커 CLI 포함된 이미지
             args '-v /var/run/docker.sock:/var/run/docker.sock' // 호스트의 도커 데몬 사용
