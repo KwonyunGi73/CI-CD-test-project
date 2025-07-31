@@ -31,7 +31,7 @@ pipeline {
                 script {
                     // Docker 데몬 소켓 파일의 권한을 666으로 변경하여 모든 사용자에게 읽기/쓰기 권한 부여
                     // 이는 Jenkins 컨테이너 내부의 'jenkins' 사용자가 docker.sock에 접근할 수 있도록 하는 핵심 권한 설정입니다.
-                    sh "sudo chmod 666 ${DOCKER_HOST_SOCKET}"
+                    // sh "sudo chmod 666 ${DOCKER_HOST_SOCKET}"
 
                     // Python 애플리케이션 테스트를 위한 Docker 컨테이너 실행
                     // --rm: 컨테이너 실행 종료 시 자동으로 삭제
