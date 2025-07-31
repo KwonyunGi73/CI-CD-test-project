@@ -56,7 +56,8 @@ pipeline {
                     // -t: 이미지 태그 (Docker Hub 사용자명/이미지이름:빌드번호)
                     // -f Dockerfile.app: 빌드에 사용할 Dockerfile (프로젝트 루트에 있는 Dockerfile.app 사용)
                     // .: 현재 디렉토리(Jenkins 워크스페이스)를 빌드 컨텍스트로 사용
-                    sh "docker build -t ${DOCKER_HUB_USERNAME}/${KwonyunGi73}:\${BUILD_NUMBER} -f Dockerfile.app ."
+                    sh "docker build -t ${DOCKER_HUB_USERNAME}/${APP_IMAGE_NAME}:\${BUILD_NUMBER} -f Dockerfile.app ."
+                    
                 }
             }
         }
