@@ -46,6 +46,10 @@ pipeline {
             steps {
                 echo '=== Pushing Docker Image to Docker Hub ==='
                 sh '''
+                    echo "DOCKER_HUB_CREDENTIALS_USR: $DOCKER_HUB_CREDENTIALS_USR"
+                    echo "DOCKER_HUB_CREDENTIALS_PSW: ${DOCKER_HUB_CREDENTIALS_PSW:0:4}****"
+                    echo $DOCKER_HUB_CREDENTIALS_USR
+                    # 로그인 수행
                     echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin
                     docker push ${DOCKER_HUB_USERNAME}/${APP_IMAGE_NAME}:${BUILD_NUMBER}
                 '''
