@@ -2,6 +2,7 @@ pipeline {
     agent any  // 또는 agent { docker { ... } } 중 하나 선택 가능. 여기서는 any로 수정
 
     environment {
+        DOCKER_HUB_CREDENTIALS = credentials('f2c7c330-30a3-45c8-a6ce-79dc2f4fea9c')
         DOCKER_HOST_SOCKET = '/var/run/docker.sock'
         DOCKER_HUB_USERNAME = 'KwonyunGi73'
         APP_IMAGE_NAME = 'my-python-app'
