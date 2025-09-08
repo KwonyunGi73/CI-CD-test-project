@@ -1,0 +1,36 @@
+name: Slack Notification on Push
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때만 동작합니다. 다른 브랜치도 추가 가능합니다.
+
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 저장소의 코드를 runner로 가져옵니다.
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2 # 이전 커밋과 비교하기 위해 최소 2개의 커밋을 가져옵니다.
+
+      # 2. 변경된 파일 목록을 추출합니다.
+      - name: Get changed files
+        id: changed-files
+        run: |
+          echo "files=$(git diff --name-only HEAD^ HEAD | tr '\n' ', ')" >> $GITHUB_OUTPUT
+
+      # 3. 슬랙으로 알림을 보냅니다.
+      - name: Send Slack notification
+        uses: act10ns/slack@v2
+        with:
+          status: success
+          channel: '#일반' # 알림을 보낼 슬랙 채널 이름 (Webhook 생성 채널과 달라도 됨)
+          message: |
+            *New Commit on ${{ github.repository }}*
+            > Committer: ${{ github.actor }}
+            > Changed files: `${{ steps.changed-files.outputs.files }}`
+            > See details: ${{ github.event.compare }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # 2단계에서 저장한 Secret을 사용
