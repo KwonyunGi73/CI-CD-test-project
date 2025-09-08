@@ -26,7 +26,7 @@ jobs:
         uses: act10ns/slack@v2
         with:
           status: success
-          channel: '#QA알림' # 알림을 보낼 슬랙 채널 이름 (Webhook 생성 채널과 달라도 됨)
+          channel: '#qa알림' # 알림을 보낼 슬랙 채널 이름 (Webhook 생성 채널과 달라도 됨)
           message: |
             *New Commit on ${{ github.repository }}*
             > Committer: ${{ github.actor }}
