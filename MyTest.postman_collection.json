@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "91677a26-3877-45d8-a284-ff5aa5303cff",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16018816",
+		"_collection_link": "https://fds444-0932.postman.co/workspace/Team-Workspace~002be034-cf0e-4c34-8647-1165e3ce04c9/collection/16018816-91677a26-3877-45d8-a284-ff5aa5303cff?action=share&source=collection_link&creator=16018816"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// POST 요청의 응답을 검증하고, 여기서 userId 변수를 \"생성\"합니다.\r",
+							"pm.test(\"Successful POST and variable setting\", function () {\r",
+							"    // 1. 응답 코드가 201 Created 인지 확인\r",
+							"    pm.response.to.have.status(201);\r",
+							"    \r",
+							"    // 2. 응답 본문을 JSON으로 파싱\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    // 3. 응답 데이터에서 id를 추출하여 \"userId\" 변수에 저장! (핵심)\r",
+							"    if (responseData && responseData.id) {\r",
+							"        pm.collectionVariables.set(\"userId\", responseData.id);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// [이 코드는 GET /api/users/{{userid}} 요청의 Tests 탭에 넣는 것이 맞습니다]\r",
+							"\r",
+							"// [검증 1] 이 Mock 서버의 정상 동작인 '404 Not Found'가 오는지 확인\r",
+							"pm.test(\"Status code is 404 Not Found, as expected for this mock server\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"// [검증 2] 404 응답에는 'data' 속성이 없는 것을 확인\r",
+							"pm.test(\"Response body should not contain a 'data' object\", function () {\r",
+							"    // 404 오류 응답에는 보통 data 필드가 없으므로, 없는 것을 검증합니다.\r",
+							"    pm.expect(pm.response.json()).to.not.have.property('data');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users/{{userId}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// [검증 1] 응답 상태 코드가 200 OK 인지 확인\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// 응답 데이터를 jsonData 라는 변수에 저장\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"// [검증 2] 응답 데이터의 job이 우리가 수정한 'zion resident'가 맞는지 확인\r",
+							"pm.test(\"Job was updated correctly\", function () {\r",
+							"    pm.expect(jsonData.job).to.eql(\"zion resident\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/{{userId}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// [검증 1] 응답 상태 코드가 204 No Content 인지 확인\r",
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users/{{userId}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "createdUserId",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		}
+	]
+}
