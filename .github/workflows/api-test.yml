@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. API 테스트에 필요한 Node.js 환경을 설치하는 단계
+      # 2. API 테스트에 필요한 Node.js 환경을 설치하는  계
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -31,7 +31,7 @@ jobs:
 
       # 4. Newman 명령어를 실행하여 Postman 테스트를 수행하는 단계
       - name: Run API Tests
-        run: newman run "MyTest.postman_collection.json" -r cli,html --reporter-html-export report.html
+        run: newman run "MyTest.postman_collection.json" -n 100 -r cli,html --reporter-html-export report.html
       
       # 5. 생성된 HTML 리포트 파일을 아티팩트(결과물)로 업로드하는 단계
       - name: Upload test report
